@@ -7,3 +7,4 @@ story behind each change is in `docs/journal/`. See `docs/DOCS-STANDARD.md`.
 | Date | Change | Title |
 |---|---|---|
 | 2026-10-19 | [#1](https://github.com/CharlieWA01/portfolio/pull/1) | The first landing page: four tiles, checks and an OIDC deploy |
+| 2026-10-19 | [#2](https://github.com/CharlieWA01/portfolio/pull/2) | Journal: record the first successful deploy |

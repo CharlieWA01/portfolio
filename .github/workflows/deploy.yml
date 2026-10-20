@@ -1,0 +1,56 @@
+# Publishes site/ to the portfolio's S3 bucket in workloads-prod, then
+# clears CloudFront's cache so visitors get the new files.
+#
+# Signs in with OIDC (no stored keys) as cwa-github-portfolio-deploy, which
+# only trusts this repo's main branch and may only write the site's files
+# and clear the cache (cloud-homelab, terraform/prod/github-oidc.tf).
+#
+# This repo is public, so its logs are too: the account ID is masked, and
+# the bucket name (which contains it) is never printed.
+name: deploy
+
+on:
+  push:
+    branches: [main]
+    paths: ["site/**", ".github/workflows/deploy.yml"]
+  workflow_dispatch:
+
+permissions:
+  id-token: write # lets the job ask GitHub for an OIDC token
+  contents: read
+
+# One deploy at a time; a newer push waits for the one in progress.
+concurrency:
+  group: deploy
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+
+      - name: Check the landing page first
+        run: python3 -m unittest discover -s tests -v
+
+      - name: Sign in to AWS (prod)
+        uses: aws-actions/configure-aws-credentials@v6
+        with:
+          role-to-assume: ${{ vars.AWS_DEPLOY_ROLE_ARN }}
+          aws-region: us-east-2
+          mask-aws-account-id: true
+
+      # The bucket is cwa-site-<account id>; working it out here keeps the
+      # account ID out of this public repo. --delete removes files that were
+      # deleted from site/.
+      - name: Upload the site
+        run: |
+          account=$(aws sts get-caller-identity --query Account --output text)
+          aws s3 sync site/ "s3://cwa-site-$account/" --delete --only-show-errors
+          echo "Uploaded site/."
+
+      - name: Clear CloudFront's cache
+        env:
+          DISTRIBUTION_ID: ${{ vars.SITE_DISTRIBUTION_ID }}
+        run: |
+          test -n "$DISTRIBUTION_ID" || { echo "::error::Set the SITE_DISTRIBUTION_ID repository variable"; exit 1; }
+          aws cloudfront create-invalidation --distribution-id "$DISTRIBUTION_ID" --paths "/*" --query Invalidation.Status --output text

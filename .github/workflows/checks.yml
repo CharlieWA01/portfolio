@@ -1,0 +1,18 @@
+# Runs the landing page's checks (tests/test_site.py) on every pull request.
+name: checks
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  site:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - name: Check the landing page
+        run: python3 -m unittest discover -s tests -v

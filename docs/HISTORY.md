@@ -8,3 +8,4 @@ story behind each change is in `docs/journal/`. See `docs/DOCS-STANDARD.md`.
 |---|---|---|
 | 2026-10-19 | [#1](https://github.com/CharlieWA01/portfolio/pull/1) | The first landing page: four tiles, checks and an OIDC deploy |
 | 2026-10-19 | [#2](https://github.com/CharlieWA01/portfolio/pull/2) | Journal: record the first successful deploy |
+| 2026-10-23 | [#3](https://github.com/CharlieWA01/portfolio/pull/3) | Deploy: role ARN and distribution ID as secrets |

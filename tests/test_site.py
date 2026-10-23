@@ -73,6 +73,13 @@ class LandingPageTests(unittest.TestCase):
             with self.subTest(href=href):
                 self.assertTrue(href.startswith("https://"))
 
+    def test_no_links_straight_to_a_lambda_function_url(self):
+        # Apps are reached through their CloudFront address. A bare function
+        # URL was the sandbox copy of Maplenote, deleted on 2026-10-23.
+        for href, _ in self.page.external_links:
+            with self.subTest(href=href):
+                self.assertNotIn(".lambda-url.", href)
+
     def test_has_a_title_and_no_placeholders(self):
         self.assertEqual(self.page.titles, 1)
         self.assertNotIn("_URL", self.html)

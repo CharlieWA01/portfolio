@@ -7,8 +7,8 @@
 - [x] Landing page: four tiles (Maplenote, Stargazer, how this site runs,
       homelab), light and dark mode, works on a phone (2026-10-20)
 - [x] Deploy on merge via GitHub Actions and OIDC; checks on every PR
-- [ ] Maplenote's tile points at its prod address once Maplenote moves to
-      its own CloudFront distribution (it points at sandbox for now)
+- [x] Maplenote's tile points at its prod address, its own CloudFront
+      distribution (2026-10-23, after the sandbox copy was deleted)
 - [ ] A domain (Charlie registers it), then `example.dev` for this page
 
 ## Later tiles
@@ -28,5 +28,6 @@
 ## Known limitations
 
 - The address is `d2mxgk1quci5q8.cloudfront.net` until there's a domain.
-- The Maplenote tile opens the sandbox copy, which can be broken on
-  purpose; guests' notes there stay in their browser either way.
+- The Maplenote tile's address is Maplenote's own `*.cloudfront.net` name
+  until there's a domain; if that distribution is ever replaced, the tile
+  must change with it.

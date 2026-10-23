@@ -28,9 +28,23 @@ mixes with other tiles) and keeps each app independent.
 ## 2026-10-20: No secrets or IDs in this public repo
 
 **Decision:** the repo is public. The deploy role's ARN and the
-distribution ID are repository variables; the bucket name is worked out at
+distribution ID are repository variables *(superseded 2026-10-23: secrets,
+see below)*; the bucket name is worked out at
 deploy time from the signed-in account, and the account ID is masked in
 the logs.
 **Alternatives:** a private repo (hides everything, but employers can't
 read the code that runs the site).
 **Why:** the code is part of the portfolio. **Cost:** $0.
+
+## 2026-10-23: The role ARN and distribution ID become secrets
+
+**Decision:** `AWS_DEPLOY_ROLE_ARN` and `SITE_DISTRIBUTION_ID` move from
+repository variables to repository secrets.
+**Supersedes:** keeping them as variables (2026-10-20).
+**Why:** the first deploy's public log showed the full role ARN (so the
+prod account ID) and the distribution ID. GitHub prints a variable's value
+as-is, and `configure-aws-credentials` prints its inputs before
+`mask-aws-account-id` starts working. Secrets are printed as `***`. Found
+while making maplenote public (maplenote DECISIONS.md, 2026-10-23).
+**Alternatives:** *masking by hand* (`::add-mask::`) can't come before the
+action prints its inputs. **Cost:** $0.

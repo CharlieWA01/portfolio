@@ -27,8 +27,9 @@ code without touching `docs/`. End every GitHub comment Claude posts with
   strict Content-Security-Policy can be added. `tests/test_site.py`
   enforces the basics.
 - **This repo is public.** No account IDs, bucket names, distribution IDs,
-  email addresses or anything from Terraform output in the code; those live
-  in repository variables. The deploy workflow masks the account ID.
+  email addresses or anything from Terraform output in the code. Anything
+  holding the account ID or a resource ID goes in a repository **secret**,
+  never a variable or a `run:` line (both are printed in the public logs).
 - Tiles for apps with real data and a login (Maplenote) link to that app's
   own address, never embed it: each such app keeps its own browser origin
   (cloud-homelab DECISIONS.md, 2026-10-20).

@@ -35,7 +35,7 @@ python3 -m unittest discover -s tests -v
 ```
 
 Merging to `main` deploys. The deploy workflow needs two repository
-variables (Settings → Secrets and variables → Actions → Variables):
+secrets (Settings → Secrets and variables → Actions → Secrets):
 `AWS_DEPLOY_ROLE_ARN` and `SITE_DISTRIBUTION_ID`, both from
 `terraform output` in `cloud-homelab/terraform/prod`.
 

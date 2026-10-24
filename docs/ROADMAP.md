@@ -9,6 +9,7 @@
 - [x] Deploy on merge via GitHub Actions and OIDC; checks on every PR
 - [x] Maplenote's tile points at its prod address, its own CloudFront
       distribution (2026-10-23, after the sandbox copy was deleted)
+- [x] "How I work with AI" tile and page (`site/ai.html`, 2026-10-24)
 - [ ] A domain (Charlie registers it), then `example.dev` for this page
 
 ## Later tiles
@@ -23,6 +24,10 @@
   has no inline scripts or styles, so it can be strict).
 - A custom 404 page.
 - An "About Charlie" tile or section, with a resume link.
+- Links from the AI page to stargazer and cloud-homelab, if those repos
+  go public.
+- A tile for the next AI project (a research pipeline) once it has
+  results worth showing.
 - Social preview image (`og:image`) so the link looks good when shared.
 
 ## Known limitations

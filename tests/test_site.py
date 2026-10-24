@@ -1,4 +1,4 @@
-"""Checks for the landing page, run on every pull request.
+"""Checks for every page of the site, run on every pull request.
 
 Plain Python (no installs): `python3 -m unittest discover -s tests` from the repo root.
 They catch the mistakes a static site can make: a broken link to one of
@@ -48,41 +48,62 @@ def parse(name):
     return parser
 
 
-class LandingPageTests(unittest.TestCase):
-    def setUp(self):
-        self.page = parse("index.html")
-        self.html = (SITE / "index.html").read_text(encoding="utf-8")
+PAGES = sorted(path.name for path in SITE.glob("*.html"))
+
+
+class PageTests(unittest.TestCase):
+    """The same checks for every page in site/ (the landing page and the
+    pages its tiles open, such as ai.html)."""
+
+    def pages(self):
+        for name in PAGES:
+            with self.subTest(page=name):
+                yield name, parse(name), (SITE / name).read_text(encoding="utf-8")
 
     def test_every_local_file_it_links_to_exists(self):
-        for ref in self.page.local_refs:
-            with self.subTest(ref=ref):
-                self.assertTrue((SITE / ref.lstrip("/")).is_file(), f"site/{ref} is missing")
+        for name, page, _ in self.pages():
+            for ref in page.local_refs:
+                with self.subTest(ref=ref):
+                    self.assertTrue((SITE / ref.lstrip("/")).is_file(), f"site/{ref} is missing")
 
     def test_no_inline_scripts_or_styles(self):
-        self.assertEqual(self.page.inline_scripts, 0)
-        self.assertEqual(self.page.style_attributes, 0)
-        self.assertNotIn("<style", self.html)
+        for name, page, html in self.pages():
+            self.assertEqual(page.inline_scripts, 0)
+            self.assertEqual(page.style_attributes, 0)
+            self.assertNotIn("<style", html)
 
     def test_external_links_use_noopener(self):
-        for href, rel in self.page.external_links:
-            with self.subTest(href=href):
-                self.assertIn("noopener", rel)
+        for name, page, _ in self.pages():
+            for href, rel in page.external_links:
+                with self.subTest(href=href):
+                    self.assertIn("noopener", rel)
 
     def test_external_links_are_https(self):
-        for href, _ in self.page.external_links:
-            with self.subTest(href=href):
-                self.assertTrue(href.startswith("https://"))
+        for name, page, _ in self.pages():
+            for href, _ in page.external_links:
+                with self.subTest(href=href):
+                    self.assertTrue(href.startswith("https://"))
 
     def test_no_links_straight_to_a_lambda_function_url(self):
         # Apps are reached through their CloudFront address. A bare function
         # URL was the sandbox copy of Maplenote, deleted on 2026-10-23.
-        for href, _ in self.page.external_links:
-            with self.subTest(href=href):
-                self.assertNotIn(".lambda-url.", href)
+        for name, page, _ in self.pages():
+            for href, _ in page.external_links:
+                with self.subTest(href=href):
+                    self.assertNotIn(".lambda-url.", href)
 
     def test_has_a_title_and_no_placeholders(self):
-        self.assertEqual(self.page.titles, 1)
-        self.assertNotIn("_URL", self.html)
+        for name, page, html in self.pages():
+            self.assertEqual(page.titles, 1)
+            self.assertNotIn("_URL", html)
+
+    def test_every_page_is_reachable_from_the_landing_page(self):
+        # A page no tile links to is one nobody will find.
+        linked = set(parse("index.html").local_refs)
+        for name in PAGES:
+            if name != "index.html":
+                with self.subTest(page=name):
+                    self.assertIn(name, linked)
 
 
 if __name__ == "__main__":

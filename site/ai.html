@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>How I work with AI · Charlie's projects</title>
+  <meta name="description" content="Claude writes most of my code. Here is what I own, the rules I set it, and where I changed its course.">
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body class="page">
+  <nav class="back"><a href="index.html">← All projects</a></nav>
+
+  <header>
+    <h1>How I work with AI</h1>
+    <p class="lede">Claude (Anthropic's AI, through Claude Code) writes most of the code in these projects. I don't write Rust, and I'm newer to app development than to infrastructure. What I own is everything around the code: the goals, the constraints, the design decisions, the review and the proof that it works.</p>
+  </header>
+
+  <main class="article">
+    <section>
+      <h2>Who does what</h2>
+      <div class="split">
+        <div class="card">
+          <h3>Me</h3>
+          <ul>
+            <li>Set the goal and what "done" means</li>
+            <li>Set the budget, the security rules and what the AI may touch</li>
+            <li>Choose between the options it lays out</li>
+            <li>Review every pull request and merge it, or send it back</li>
+            <li>Approve every change to real AWS infrastructure</li>
+          </ul>
+        </div>
+        <div class="card">
+          <h3>Claude</h3>
+          <ul>
+            <li>Writes the code, the tests and the infrastructure code</li>
+            <li>Lays out options with their costs and recommends one</li>
+            <li>Runs the tests and read-only checks (like <code>terraform plan</code>)</li>
+            <li>Writes up what it did, what went wrong and why</li>
+            <li>Stops and asks when a real decision comes up</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <h2>The rules I set</h2>
+
+      <h3>Every repo starts with a briefing</h3>
+      <p>Each project has a <code>CLAUDE.md</code> file that the AI reads first: what the project is, its ground rules and how we work. It works like a spec for a new teammate who forgets everything between sessions. Maplenote's, for example, says the server never touches files outside the workspace, every rule is enforced on the server and not just in the page, and nothing that holds files goes on the internet without a login.</p>
+      <p class="evidence"><a href="https://github.com/CharlieWA01/maplenote/blob/main/CLAUDE.md" rel="noopener">Maplenote's CLAUDE.md</a></p>
+
+      <h3>The AI may plan; only I apply</h3>
+      <p>Claude can run <code>terraform plan</code> to see what a change would do, but every <code>apply</code> is mine. That isn't a promise the AI makes: AWS enforces it. Claude signs in with its own short-lived, read-only role, plus the one write that a plan needs (Terraform's lock file). In production its role can plan but is explicitly denied reading any data, so it can debug without seeing anyone's notes. Claude Code's own settings add a second layer (it must ask before <code>apply</code> or <code>destroy</code>), and organization-wide guardrails a third (nobody can create resources that bill by the hour without me).</p>
+
+      <h3>Prove every change</h3>
+      <p>"It seems to work" isn't accepted. For the chess engine, every rule of chess is checked by perft (counting every possible position a few moves deep against known answers), and no change that claims to make it stronger merges without a statistical match against the previous version (SPRT): about 2,000 games on AWS for roughly 25 cents. Before I trusted that test rig, it had to play the engine against itself and come out even. For Maplenote, a new test only counts once we've broken the code it protects and watched the test fail.</p>
+
+      <h3>The docs are the memory</h3>
+      <p>The AI forgets between sessions, so the repo remembers. Every pull request updates a journal entry, a decision log (each choice with the alternatives, the cost and the reason) and the roadmap. A GitHub check fails any pull request that changes code without touching the docs. When a decision changes, the old entry is marked superseded, not deleted, so the record shows why, not just what.</p>
+      <p class="evidence"><a href="https://github.com/CharlieWA01/maplenote/blob/main/docs/DECISIONS.md" rel="noopener">Maplenote's decision log</a> · <a href="https://github.com/CharlieWA01/portfolio/blob/main/docs/DECISIONS.md" rel="noopener">this site's</a></p>
+
+      <h3>Trust is widened on purpose</h3>
+      <p>Limits loosen only when a task has proven routine. The chess engine's strength tests used to need my yes every time. Each one costs cents and has the same shape, and waiting for me left finished work idle for hours, so Claude may now start a standard test on its own. Anything bigger (other settings, more machines, a longer test) still comes to me first. The change is in the decision log like any other.</p>
+    </section>
+
+    <section>
+      <h2>Where I changed its course</h2>
+      <ul class="stories">
+        <li><strong>A rule that stopped making sense.</strong> Early on I said Maplenote should never show "unsaved changes" pop-ups. Later autosave became optional, and while reviewing that pull request I saw that with autosave off, closing a tab threw edits away silently. I questioned it, we traced the old rule to an assumption that no longer held, and the design changed.</li>
+        <li><strong>A test result I didn't take at face value.</strong> The chess engine's test rig once declared a copy of the engine stronger than itself. Two more 2,000-game runs showed no difference, so it was chance, not a bug. I kept a rule from it anyway: re-check the rig whenever it changes, and treat a result that only just passes with suspicion.</li>
+        <li><strong>A goal that keeps the code explainable.</strong> The chess engine aims at about 1800 on Lichess with a design I can explain in an interview, not maximum strength. That ruled out a neural-network evaluation for now, and kept it from becoming "the machine learning project" by accident.</li>
+        <li><strong>A broken link I found by using it.</strong> The Maplenote tile on this page still pointed at a test copy that had been deleted. Nothing had tied the two together. It now points at the real app, and a test makes sure that kind of address can't come back.</li>
+      </ul>
+      <p>It goes the other way too. When I asked to rework the chess engine's time management first, Claude showed why that would be tuned for an engine about to change, and moved it later in the plan. I agreed. The point isn't to win every argument; it's that every decision has a reason I can repeat.</p>
+    </section>
+
+    <section>
+      <h2>Keeping myself honest</h2>
+      <p>Directing an AI well only counts if I understand what it built. So the next habit I'm building is defending the design: pick a Terraform file, a guardrail policy, the deploy role or the test rig, explain it in my own words, break it and fix it, and argue the alternatives the decision log rejected.</p>
+      <p>Next up is a research project where the language model is one part of a data pipeline rather than the one writing the code: structured outputs, the cost of each call, checking its judgments, and knowing when plain statistics beat a model.</p>
+    </section>
+  </main>
+
+  <footer>
+    <p>Built by Charlie, with Claude. <a href="https://github.com/CharlieWA01/portfolio" rel="noopener">Source on GitHub</a>.</p>
+  </footer>
+</body>
+</html>

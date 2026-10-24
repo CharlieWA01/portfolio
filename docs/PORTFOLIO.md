@@ -9,6 +9,9 @@ keys, for about $7 a month.
 
 ## What it shows
 - Each tile works on click: Maplenote opens in guest mode with no login.
+- A "How I work with AI" page: Claude writes most of the code; I own the
+  goals, design, review and verification, with AWS-enforced limits on
+  what the AI can change and proof required for every change.
 - Built to be glanced at: one page, no scripts, fast everywhere, light and
   dark mode.
 - The infrastructure is part of the story: Terraform in `cloud-homelab`,

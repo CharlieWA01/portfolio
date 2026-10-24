@@ -10,6 +10,9 @@
   --stargazer: #3d4a8f;
   --site: #2f7d6d;
   --homelab: #6b5a7a;
+  --ai: #9a4f5c;
+  --card-bg: #ffffff;
+  --rule: #e2ddd4;
   --focus: #1a5fd0;
   color-scheme: light;
 }
@@ -20,6 +23,8 @@
     --text: #e6e4df;
     --muted: #a19c92;
     --focus: #7fb0ff;
+    --card-bg: #26282c;
+    --rule: #3a3c41;
     color-scheme: dark;
   }
 }
@@ -96,9 +101,56 @@ a.tile:focus-visible {
 .tile-stargazer { background: var(--stargazer); }
 .tile-site { background: var(--site); }
 .tile-homelab { background: var(--homelab); }
+.tile-ai { background: var(--ai); }
 
 /* Not clickable yet: muted colour, but text stays full contrast. */
 .soon { filter: saturate(0.5); }
+
+/* Article pages (How I work with AI): one readable column. */
+.page header, .page footer, .article, .back {
+  max-width: 720px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.page header { text-align: left; margin-bottom: 32px; }
+.page .lede { font-size: 1.1rem; }
+
+.back { margin-bottom: 24px; font-size: 0.95rem; }
+.back a, .article a { color: var(--focus); }
+.back a:focus-visible, .article a:focus-visible {
+  outline: 3px solid var(--focus);
+  outline-offset: 2px;
+}
+
+.article section { margin-bottom: 40px; }
+.article h2 {
+  margin: 0 0 16px;
+  padding-bottom: 6px;
+  border-bottom: 2px solid var(--rule);
+  font-size: 1.5rem;
+}
+.article h3 { margin: 24px 0 6px; font-size: 1.1rem; }
+.article p, .article li { margin: 0 0 12px; }
+.article ul { padding-left: 1.2em; }
+.article code { font-size: 0.9em; overflow-wrap: anywhere; }
+.evidence { color: var(--muted); font-size: 0.9rem; }
+
+.split {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 16px;
+}
+
+.card {
+  padding: 16px 20px 4px;
+  border-radius: 14px;
+  background: var(--card-bg);
+  border: 1px solid var(--rule);
+}
+.card h3 { margin-top: 0; }
+
+.stories li { margin-bottom: 14px; }
 
 footer {
   margin-top: 48px;

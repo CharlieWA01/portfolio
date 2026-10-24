@@ -48,3 +48,23 @@ as-is, and `configure-aws-credentials` prints its inputs before
 while making maplenote public (maplenote DECISIONS.md, 2026-10-23).
 **Alternatives:** *masking by hand* (`::add-mask::`) can't come before the
 action prints its inputs. **Cost:** $0.
+
+## 2026-10-24: A "How I work with AI" page, candid about who writes the code
+
+**Decision:** a fifth tile opens `site/ai.html`, a page on this site (not
+a separate app) about how Charlie directs Claude. It says plainly that
+Claude writes most of the code and that Charlie owns the goals,
+constraints, design decisions, review and verification, then backs that
+with the rules and decisions from the repos.
+**Alternatives:** leave it implicit (each project's summary already says
+"built with Claude Code", but nobody reads that far); a blog post or
+README (not on the page an employer actually opens); downplaying the AI
+(the repos and commit trailers show it anyway, and getting caught
+overselling is worse than saying it up front).
+**Why:** it's the most differentiating thing these projects show and was
+the least visible. The evidence already exists in the decision logs.
+**Links:** only to public repos. stargazer and cloud-homelab are private,
+so the page describes their rules in words; if they go public, links can
+be added.
+**Cost:** $0.
+

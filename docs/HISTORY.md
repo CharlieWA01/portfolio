@@ -10,3 +10,4 @@ story behind each change is in `docs/journal/`. See `docs/DOCS-STANDARD.md`.
 | 2026-10-19 | [#2](https://github.com/CharlieWA01/portfolio/pull/2) | Journal: record the first successful deploy |
 | 2026-10-23 | [#3](https://github.com/CharlieWA01/portfolio/pull/3) | Deploy: role ARN and distribution ID as secrets |
 | 2026-10-23 | [#4](https://github.com/CharlieWA01/portfolio/pull/4) | Point the Maplenote tile at its prod address |
+| 2026-10-23 | [#5](https://github.com/CharlieWA01/portfolio/pull/5) | Add a "How I work with AI" tile and page |

@@ -20,7 +20,8 @@
       right on this site (the tile then opens it, and Lichess stays a link
       on that page)
 - [ ] Homelab write-ups and a read-only status page (never a path into the
-      house)
+      house). Its "coming later" tile was taken down on 2026-10-26; the tile
+      comes back once there's something to click
 
 ## Parking lot
 

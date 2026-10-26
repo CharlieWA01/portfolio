@@ -85,3 +85,15 @@ a free account. It's an outside site, not an app with Charlie's data or a
 login, so linking (not embedding) is the same rule as the other tiles.
 **Cost:** $0 here (the bot server's cost is in cloud-homelab).
 
+## 2026-10-26: No "coming later" tiles; the homelab tile comes down
+
+**Decision (Charlie):** the Homelab tile, a greyed-out "coming later"
+box, is removed. The page shows four tiles, each of which opens
+something. A homelab tile returns when there are write-ups or a status
+page to open.
+**Alternatives:** keep it as a teaser (a tile that does nothing on click
+breaks the page's one promise, "click a tile to try one").
+**Why:** with Stargazer's tile now live, Homelab was the only tile that
+did nothing. The unused `.soon` style and the homelab colour went with it.
+**Cost:** $0.
+

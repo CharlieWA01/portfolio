@@ -14,7 +14,11 @@
 
 ## Later tiles
 
-- [ ] Stargazer compiled to WebAssembly: play the engine in the browser
+- [x] Stargazer's tile links to its Lichess bot, StargazerEngine
+      (2026-10-26), until the browser version below exists
+- [ ] Stargazer compiled to WebAssembly: play the engine in the browser,
+      right on this site (the tile then opens it, and Lichess stays a link
+      on that page)
 - [ ] Homelab write-ups and a read-only status page (never a path into the
       house)
 

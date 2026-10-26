@@ -68,3 +68,20 @@ so the page describes their rules in words; if they go public, links can
 be added.
 **Cost:** $0.
 
+## 2026-10-26: Stargazer's tile links to Lichess for now
+
+**Decision:** the Stargazer tile stops being "coming soon" and links to
+the engine's Lichess bot account (`lichess.org/@/StargazerEngine`), which
+went live on 2026-10-25 and plays rated games (stargazer DECISIONS.md,
+2026-10-26). Playing it in the browser on this site, compiled to
+WebAssembly, is still the goal; when it exists, the tile opens that page
+and Lichess becomes a link on it.
+**Alternatives:** *keep "coming soon"* until the WebAssembly version
+(hides a working project); *link to the GitHub repo* (code, not something
+to click and watch; the Lichess profile already links to it).
+**Why:** every tile should work on click. A Lichess profile shows live
+games, a rating and the game history, and a visitor can challenge it with
+a free account. It's an outside site, not an app with Charlie's data or a
+login, so linking (not embedding) is the same rule as the other tiles.
+**Cost:** $0 here (the bot server's cost is in cloud-homelab).
+

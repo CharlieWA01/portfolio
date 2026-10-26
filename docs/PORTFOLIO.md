@@ -8,7 +8,9 @@ through CloudFront and AWS WAF, deployed by GitHub Actions with no stored
 keys, for about $7 a month.
 
 ## What it shows
-- Each tile works on click: Maplenote opens in guest mode with no login.
+- Each tile works on click: Maplenote opens in guest mode with no login;
+  Stargazer opens its Lichess bot, a from-scratch Rust engine playing
+  rated games from 10am to 10pm Central.
 - A "How I work with AI" page: Claude writes most of the code; I own the
   goals, design, review and verification, with AWS-enforced limits on
   what the AI can change and proof required for every change.

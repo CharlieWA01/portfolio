@@ -28,8 +28,8 @@
   has no inline scripts or styles, so it can be strict).
 - A custom 404 page.
 - An "About Charlie" tile or section, with a resume link.
-- Links from the AI page to stargazer and cloud-homelab, if those repos
-  go public.
+- Links from the AI page to cloud-homelab, if it goes public (stargazer's
+  went in on 2026-10-26).
 - A tile for the next AI project (a research pipeline) once it has
   results worth showing.
 - Social preview image (`og:image`) so the link looks good when shared.

@@ -55,6 +55,7 @@
 
       <h3>Prove every change</h3>
       <p>"It seems to work" isn't accepted. For the chess engine, every rule of chess is checked by perft (counting every possible position a few moves deep against known answers), and no change that claims to make it stronger merges without a statistical match against the previous version (SPRT): about 2,000 games on AWS for roughly 25 cents. Before I trusted that test rig, it had to play the engine against itself and come out even. For Maplenote, a new test only counts once we've broken the code it protects and watched the test fail.</p>
+      <p class="evidence"><a href="https://github.com/CharlieWA01/stargazer/blob/main/docs/runbooks/perft.md" rel="noopener">Stargazer's perft runbook</a> · <a href="https://github.com/CharlieWA01/stargazer/blob/main/docs/runbooks/sprt.md" rel="noopener">its SPRT runbook</a></p>
 
       <h3>The docs are the memory</h3>
       <p>The AI forgets between sessions, so the repo remembers. Every pull request updates a journal entry, a decision log (each choice with the alternatives, the cost and the reason) and the roadmap. A GitHub check fails any pull request that changes code without touching the docs. When a decision changes, the old entry is marked superseded, not deleted, so the record shows why, not just what.</p>
@@ -62,6 +63,7 @@
 
       <h3>Trust is widened on purpose</h3>
       <p>Limits loosen only when a task has proven routine. The chess engine's strength tests used to need my yes every time. Each one costs cents and has the same shape, and waiting for me left finished work idle for hours, so Claude may now start a standard test on its own. Anything bigger (other settings, more machines, a longer test) still comes to me first. The change is in the decision log like any other.</p>
+      <p class="evidence"><a href="https://github.com/CharlieWA01/stargazer/blob/main/docs/DECISIONS.md" rel="noopener">Stargazer's decision log</a> · <a href="https://github.com/CharlieWA01/stargazer/blob/main/CLAUDE.md" rel="noopener">its CLAUDE.md</a></p>
     </section>
 
     <section>

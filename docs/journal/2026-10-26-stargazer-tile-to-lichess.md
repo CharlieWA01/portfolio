@@ -14,6 +14,10 @@ Lichess, without giving up the plan to play it in the browser here.
   WebAssembly version exists.
 - ROADMAP.md: ticked the Lichess link; the WebAssembly item stays open.
 - PORTFOLIO.md: the "each tile works on click" line mentions Stargazer.
+- `site/ai.html`: stargazer is public now, so the page links its perft
+  and SPRT runbooks, its decision log and its CLAUDE.md as evidence, the
+  same way it links Maplenote's. The roadmap's parking-lot item now names
+  only cloud-homelab (still private).
 
 ## Problems and fixes
 None.

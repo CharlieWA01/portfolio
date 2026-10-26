@@ -12,3 +12,4 @@ story behind each change is in `docs/journal/`. See `docs/DOCS-STANDARD.md`.
 | 2026-10-23 | [#4](https://github.com/CharlieWA01/portfolio/pull/4) | Point the Maplenote tile at its prod address |
 | 2026-10-23 | [#5](https://github.com/CharlieWA01/portfolio/pull/5) | Add a "How I work with AI" tile and page |
 | 2026-10-25 | [#6](https://github.com/CharlieWA01/portfolio/pull/6) | Link the Stargazer tile to its Lichess bot |
+| 2026-10-25 | [#7](https://github.com/CharlieWA01/portfolio/pull/7) | Remove the Homelab "coming later" tile |

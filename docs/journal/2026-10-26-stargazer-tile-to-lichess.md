@@ -19,6 +19,11 @@ Lichess, without giving up the plan to play it in the browser here.
   same way it links Maplenote's. The roadmap's parking-lot item now names
   only cloud-homelab (still private).
 
+- Later the same day (Charlie's call): the Homelab "coming later" tile
+  was removed, along with its colour and the `.soon` style nothing else
+  used. Every tile on the page now opens something. DECISIONS.md and the
+  roadmap say so; the homelab tile returns with real content.
+
 ## Problems and fixes
 None.
 

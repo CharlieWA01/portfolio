@@ -9,7 +9,6 @@
   --maplenote: #d9822b; /* maple orange, Maplenote's own accent */
   --stargazer: #3d4a8f;
   --site: #2f7d6d;
-  --homelab: #6b5a7a;
   --ai: #9a4f5c;
   --card-bg: #ffffff;
   --rule: #e2ddd4;
@@ -100,11 +99,9 @@ a.tile:focus-visible {
 .tile-maplenote { background: var(--maplenote); }
 .tile-stargazer { background: var(--stargazer); }
 .tile-site { background: var(--site); }
-.tile-homelab { background: var(--homelab); }
 .tile-ai { background: var(--ai); }
 
 /* Not clickable yet: muted colour, but text stays full contrast. */
-.soon { filter: saturate(0.5); }
 
 /* Article pages (How I work with AI): one readable column. */
 .page header, .page footer, .article, .back {

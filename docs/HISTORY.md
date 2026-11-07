@@ -14,3 +14,4 @@ story behind each change is in `docs/journal/`. See `docs/DOCS-STANDARD.md`.
 | 2026-10-25 | [#6](https://github.com/CharlieWA01/portfolio/pull/6) | Link the Stargazer tile to its Lichess bot |
 | 2026-10-25 | [#7](https://github.com/CharlieWA01/portfolio/pull/7) | Remove the Homelab "coming later" tile |
 | 2026-11-07 | [#8](https://github.com/CharlieWA01/portfolio/pull/8) | Play Stargazer in the browser: the play page, and the tile opens it |
+| 2026-11-07 | [#9](https://github.com/CharlieWA01/portfolio/pull/9) | Play page: drag pieces as well as click-then-click |

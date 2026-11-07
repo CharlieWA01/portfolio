@@ -1,0 +1,5 @@
+# The Stargazer release the play page runs, and its SHA-256 from the
+# release page. Written by tools/update-stargazer.sh; the site checks
+# compare stargazer.wasm against it.
+tag=v0.2.0
+sha256=05133f2c1f4600de5c5036b9d446bfc5fe7af348eb00e4ade319746524ca0d5a

@@ -9,18 +9,20 @@ keys, for about $7 a month.
 
 ## What it shows
 - Each tile works on click: Maplenote opens in guest mode with no login;
-  Stargazer opens its Lichess bot, a from-scratch Rust engine playing
-  rated games from 10am to 10pm Central.
+  Stargazer opens a page where you play the from-scratch Rust engine
+  right in your browser (compiled to WebAssembly, so no server and about
+  $0), with a link to its Lichess bot.
 - A "How I work with AI" page: Claude writes most of the code; I own the
   goals, design, review and verification, with AWS-enforced limits on
   what the AI can change and proof required for every change.
-- Built to be glanced at: one page, no scripts, fast everywhere, light and
-  dark mode.
+- Built to be glanced at: plain pages, no framework, fast everywhere,
+  light and dark mode. The only script is the chess page's.
 - The infrastructure is part of the story: Terraform in `cloud-homelab`,
   every decision recorded with its cost.
 
 ## Tech
-HTML, CSS · AWS CloudFront (origin access control, managed security
+HTML, CSS, a little JavaScript · WebAssembly (Rust) · Playwright tests ·
+AWS CloudFront (origin access control, managed security
 headers), S3, WAF · GitHub Actions with OIDC · Terraform.
 
 ## Resume bullet (draft)

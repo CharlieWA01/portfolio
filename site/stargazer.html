@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Play Stargazer · Charlie's projects</title>
+  <meta name="description" content="Play chess against Stargazer, an engine built from scratch in Rust, running in your browser.">
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="style.css">
+  <script src="stargazer/play.js" defer></script>
+</head>
+<body class="page play-page">
+  <nav class="back"><a href="index.html">← All projects</a></nav>
+
+  <header>
+    <h1>Play Stargazer</h1>
+    <p class="lede">A chess engine I built from scratch in Rust. It's running right here, compiled to WebAssembly: it thinks on your computer, with no server involved.</p>
+  </header>
+
+  <main class="play">
+    <div class="board-area">
+      <div id="board" class="board" aria-label="Chess board"></div>
+      <div id="promotion" class="promotion" hidden></div>
+    </div>
+
+    <aside class="panel">
+      <p id="status" class="status" aria-live="polite">Loading the engine…</p>
+      <p id="thought" class="thought" aria-live="polite"></p>
+      <div class="controls">
+        <button type="button" id="new-white">New game as White</button>
+        <button type="button" id="new-black">New game as Black</button>
+        <button type="button" id="flip">Flip the board</button>
+      </div>
+      <h2>Moves</h2>
+      <ol id="moves" class="moves"></ol>
+
+      <h2>About this engine</h2>
+      <p>It plays at full strength and takes about a second a move. In your browser it uses one processor core, so it's not quite the engine that plays rated games on Lichess as <a href="https://lichess.org/@/StargazerEngine" rel="noopener">StargazerEngine</a>, where you can watch it live or challenge it.</p>
+      <p>Version: <a id="version" href="https://github.com/CharlieWA01/stargazer/releases" rel="noopener">loading…</a>. The <a href="https://github.com/CharlieWA01/stargazer" rel="noopener">source code</a> is on GitHub under the GPL.</p>
+      <p class="credit">Pieces: the "cburnett" set by Colin M.L. Burnett (GPL v2 or later), as used on Lichess.</p>
+    </aside>
+  </main>
+
+  <footer>
+    <p>Built by Charlie, with Claude. <a href="https://github.com/CharlieWA01/portfolio" rel="noopener">Source on GitHub</a>.</p>
+  </footer>
+</body>
+</html>

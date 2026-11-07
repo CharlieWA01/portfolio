@@ -69,6 +69,8 @@ be added.
 **Cost:** $0.
 
 ## 2026-10-26: Stargazer's tile links to Lichess for now
+*(Superseded 2026-11-07: the tile opens the play page; Lichess is a link
+on it.)*
 
 **Decision:** the Stargazer tile stops being "coming soon" and links to
 the engine's Lichess bot account (`lichess.org/@/StargazerEngine`), which
@@ -97,3 +99,27 @@ breaks the page's one promise, "click a tile to try one").
 did nothing. The unused `.soon` style and the homelab colour went with it.
 **Cost:** $0.
 
+
+## 2026-11-07: The Stargazer tile opens a play page on this site
+**Decision (Charlie's choices):** `site/stargazer.html` plays Stargazer
+in the visitor's browser: the engine (`stargazer.wasm`, from stargazer's
+releases) runs in a background worker; the board is our own small
+script; the pieces are the cburnett set (GPL v2 or later, credited). Full
+strength, one second a move, no difficulty levels for now. The tile
+opens it (supersedes linking the tile to Lichess, 2026-10-26); Lichess is
+a link on the page. A browser test (Playwright) runs in the `checks`
+workflow.
+**Alternatives:** *a board library* such as chessground (drag-and-drop
+and polish, but far more code and its own licence terms on this page);
+*Unicode chess symbols* instead of images (no files, but some phones draw
+them as emoji); *the deploy downloading the engine* at each deploy (no
+binary in git, but the file isn't reviewable in the PR and the deploy
+depends on GitHub releases); *a strength picker* (parked: done properly
+it's an engine feature of its own).
+**Why:** a one-click demo of the engine itself, costing nothing to run
+and with nothing on a server to attack. The page is a static file like
+the rest of the site, so no infrastructure changes.
+**Licences:** shipping the `.wasm` distributes Stargazer under its GPL,
+so the page links the source and the exact release; the pieces' GPL
+credit is on the page and next to the files.
+**Cost:** $0 (about 160 KB of files; CloudFront's free allowance).

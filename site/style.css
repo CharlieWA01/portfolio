@@ -1,5 +1,5 @@
 /* Charlie's projects: one page of big, friendly tiles. No build step, no
-   scripts. Colours are defined once here; dark mode follows the visitor's
+   framework. Colours are defined once here; dark mode follows the visitor's
    system setting. */
 :root {
   --bg: #f6f3ee;
@@ -13,6 +13,10 @@
   --card-bg: #ffffff;
   --rule: #e2ddd4;
   --focus: #1a5fd0;
+  --board-light: #e4e7f2; /* the play page's board, in Stargazer's blue */
+  --board-dark: #7f8cc0;
+  --highlight: rgba(246, 207, 87, 0.65);
+  --check: rgba(214, 48, 49, 0.75);
   color-scheme: light;
 }
 
@@ -157,6 +161,139 @@ footer {
 }
 
 footer a { color: inherit; }
+
+/* The play page (stargazer.html): the board, and a panel beside it (or
+   below it on a phone). */
+.play-page header, .play-page footer, .play-page .back, .play {
+  max-width: 1000px;
+}
+
+.play {
+  display: grid;
+  grid-template-columns: minmax(0, 560px) minmax(240px, 1fr);
+  gap: 32px;
+  margin: 0 auto;
+  align-items: start;
+}
+
+@media (max-width: 760px) {
+  .play { grid-template-columns: minmax(0, 1fr); }
+}
+
+.board-area { position: relative; }
+
+.board {
+  display: grid;
+  grid-template-columns: repeat(8, 1fr);
+  aspect-ratio: 1;
+  width: 100%;
+  border-radius: 6px;
+  overflow: hidden;
+  box-shadow: 0 4px 18px rgba(0, 0, 0, 0.18);
+}
+
+.square {
+  position: relative;
+  padding: 0;
+  border: 0;
+  cursor: pointer;
+  aspect-ratio: 1;
+}
+.square.light { background: var(--board-light); }
+.square.dark { background: var(--board-dark); }
+.square.last { box-shadow: inset 0 0 0 100vmax var(--highlight); }
+.square.selected { box-shadow: inset 0 0 0 100vmax rgba(240, 180, 40, 0.8); }
+.square.check { background-image: radial-gradient(circle, var(--check) 25%, transparent 75%); }
+.square.target::before {
+  content: "";
+  position: absolute;
+  inset: 37%;
+  border-radius: 50%;
+  background: rgba(20, 30, 70, 0.35);
+}
+.square.capture::before {
+  content: "";
+  position: absolute;
+  inset: 4%;
+  border-radius: 50%;
+  border: 4px solid rgba(20, 30, 70, 0.35);
+}
+.square:focus-visible {
+  outline: 3px solid var(--focus);
+  outline-offset: -3px;
+  z-index: 1;
+}
+.square img {
+  position: relative;
+  display: block;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+
+.coord {
+  position: absolute;
+  font-size: 0.7rem;
+  font-weight: 600;
+  line-height: 1;
+  pointer-events: none;
+}
+.coord.rank { top: 3px; left: 3px; }
+.coord.file { bottom: 3px; right: 3px; }
+.square.light .coord { color: var(--board-dark); }
+.square.dark .coord { color: var(--board-light); }
+
+.promotion {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  background: rgba(0, 0, 0, 0.45);
+  border-radius: 6px;
+}
+.promotion[hidden] { display: none; }
+.promote {
+  width: 18%;
+  aspect-ratio: 1;
+  padding: 4px;
+  border: 0;
+  border-radius: 12px;
+  background: var(--board-light);
+  cursor: pointer;
+}
+.promote img { width: 100%; height: 100%; display: block; }
+.promote:focus-visible { outline: 3px solid var(--focus); }
+
+.panel h2 { margin: 24px 0 8px; font-size: 1.1rem; }
+.panel p { margin: 0 0 12px; }
+.panel a { color: var(--focus); }
+.status { font-size: 1.25rem; font-weight: 600; min-height: 1.5em; }
+.thought { color: var(--muted); font-size: 0.95rem; min-height: 1.5em; }
+.credit { color: var(--muted); font-size: 0.85rem; }
+
+.controls { display: flex; flex-wrap: wrap; gap: 8px; }
+.controls button {
+  padding: 8px 14px;
+  border: 1px solid var(--rule);
+  border-radius: 10px;
+  background: var(--card-bg);
+  color: var(--text);
+  font: inherit;
+  font-size: 0.95rem;
+  cursor: pointer;
+}
+.controls button:hover { border-color: var(--stargazer); }
+.controls button:focus-visible { outline: 3px solid var(--focus); outline-offset: 2px; }
+
+.moves {
+  margin: 0;
+  padding-left: 2.2em;
+  max-height: 14em;
+  overflow-y: auto;
+  font-variant-numeric: tabular-nums;
+}
 
 @media (prefers-reduced-motion: reduce) {
   .tile { transition: none; }

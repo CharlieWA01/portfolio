@@ -16,9 +16,9 @@
 
 - [x] Stargazer's tile links to its Lichess bot, StargazerEngine
       (2026-10-26), until the browser version below exists
-- [ ] Stargazer compiled to WebAssembly: play the engine in the browser,
-      right on this site (the tile then opens it, and Lichess stays a link
-      on that page)
+- [x] Stargazer compiled to WebAssembly: play the engine in the browser,
+      right on this site (`site/stargazer.html`, 2026-11-07; the tile opens
+      it, and Lichess is a link on that page)
 - [ ] Homelab write-ups and a read-only status page (never a path into the
       house). Its "coming later" tile was taken down on 2026-10-26; the tile
       comes back once there's something to click
@@ -26,7 +26,14 @@
 ## Parking lot
 
 - A Content-Security-Policy header on the distribution (the page already
-  has no inline scripts or styles, so it can be strict).
+  has no inline scripts or styles, so it can be strict). The play page's
+  engine needs `'wasm-unsafe-eval'` in `script-src`, and `worker-src
+  'self'`.
+- Stargazer difficulty levels: parked by Charlie (2026-11-07) until they
+  can be done properly in the engine; the page plays at full strength.
+- Stargazer play page extras: take back a move, drag-and-drop, the
+  engine's thinking drawn on the board ("watch it think", stargazer's
+  parking lot).
 - A custom 404 page.
 - An "About Charlie" tile or section, with a resume link.
 - Links from the AI page to cloud-homelab, if it goes public (stargazer's

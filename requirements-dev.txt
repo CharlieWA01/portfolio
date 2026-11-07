@@ -1,0 +1,4 @@
+# Only for the play page's browser tests (tests/test_play.py); the site
+# itself needs nothing installed. Pinned to the same Playwright as
+# maplenote (its DECISIONS.md explains the version).
+playwright==1.56.0

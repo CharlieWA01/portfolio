@@ -14,8 +14,9 @@ visitor ─HTTPS─▶ CloudFront ─▶ AWS WAF (per-visitor rate limit, AWS co
 push to main ─▶ GitHub Actions ─OIDC─▶ deploy role ─▶ sync site/, clear cache
 ```
 
-- **Static files only:** plain HTML and CSS in `site/`, no build step and
-  no JavaScript.
+- **Static files only:** plain HTML and CSS in `site/`, no build step. The
+  one page with JavaScript is the Stargazer play page (`site/stargazer/`),
+  where the chess engine runs in the visitor's browser as WebAssembly.
 - **Private bucket:** nobody can read S3 directly; only this site's
   CloudFront distribution can.
 - **No stored keys:** the deploy workflow signs in to AWS with GitHub's OIDC
@@ -28,11 +29,23 @@ push to main ─▶ GitHub Actions ─OIDC─▶ deploy role ─▶ sync site/, 
 
 ## Working on it
 
-Open `site/index.html` in a browser; that's the whole site. Before a PR:
+Serve `site/` and open it (the play page's engine can't load from a
+`file://` page):
 
 ```sh
-python3 -m unittest discover -s tests -v
+python3 -m http.server -d site 8000   # http://localhost:8000
 ```
+
+Before a PR:
+
+```sh
+pip install -r requirements-dev.txt && python -m playwright install chromium   # once
+REQUIRE_BROWSER_TESTS=1 python3 -m unittest discover -s tests -v
+```
+
+Without Playwright the browser tests are skipped and the rest still run.
+A new Stargazer version for the play page: `tools/update-stargazer.sh
+vX.Y.Z` (it checks the release's checksum), then a PR.
 
 Merging to `main` deploys. The deploy workflow needs two repository
 secrets (Settings → Secrets and variables → Actions → Secrets):

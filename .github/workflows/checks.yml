@@ -1,4 +1,5 @@
-# Runs the landing page's checks (tests/test_site.py) on every pull request.
+# Runs the site's checks on every pull request: tests/test_site.py (every
+# page) and tests/test_play.py (the Stargazer play page, in a real browser).
 name: checks
 
 on:
@@ -11,8 +12,24 @@ permissions:
 
 jobs:
   site:
-    runs-on: ubuntu-latest
+    # Not ubuntu-latest: that's Ubuntu 26.04 now, and Playwright 1.56 can't
+    # install its browser there (failed on this PR's first run, 2026-11-07).
+    runs-on: ubuntu-24.04
     steps:
       - uses: actions/checkout@v7
-      - name: Check the landing page
-        run: python3 -m unittest discover -s tests -v
+
+      - uses: actions/setup-python@v7
+        with:
+          python-version: "3.11"   # same as Charlie's Chromebook
+
+      - name: Install Playwright and its browser
+        run: |
+          pip install -r requirements-dev.txt
+          python -m playwright install --with-deps chromium
+
+      # REQUIRE_BROWSER_TESTS makes the browser tests fail rather than skip
+      # if Playwright is missing.
+      - name: Check the site
+        env:
+          REQUIRE_BROWSER_TESTS: "1"
+        run: python -m unittest discover -s tests -v

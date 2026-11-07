@@ -14,6 +14,8 @@ more to explain for a page with four tiles).
 **Why:** it loads instantly, has nothing to patch, and anyone can read
 the source. A tile that needs code (Stargazer) brings its own.
 **Cost:** $0.
+*(2026-11-07: as planned, the Stargazer play page brought its own small
+scripts; every other page still has none, and there's still no build step.)*
 
 ## 2026-10-20: Tiles link out to each app's own address
 

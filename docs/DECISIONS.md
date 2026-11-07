@@ -125,3 +125,25 @@ the rest of the site, so no infrastructure changes.
 so the page links the source and the exact release; the pieces' GPL
 credit is on the page and next to the files.
 **Cost:** $0 (about 160 KB of files; CloudFront's free allowance).
+
+## 2026-11-07: The Stargazer bot's status page reads static JSON from this site
+**Decision (Charlie, stargazer's 5c design; stargazer DECISIONS.md and
+cloud-homelab DECISIONS.md, 2026-11-07):** `site/stargazer-bot.html` and
+`site/stargazer/status.js` read `data/stargazer/live.json` (every 5
+minutes while the bot plays) and `stats.json` (nightly), which AWS
+Lambdas write into this site's bucket. The deploy's `aws s3 sync
+--delete` gets `--exclude "data/*"` so it doesn't delete them. The page
+is linked from the play page, not given a tile of its own; the
+"reachable from the landing page" check now follows links page to page.
+The page treats the files as untrusted: text only (no `innerHTML`, a
+test checks), and only Lichess-shaped game ids become links. The rating
+chart is a small SVG drawn by the script, no chart library.
+**Alternatives:** an API (API Gateway or a function URL; a public
+endpoint to secure and pay for, and a call to another origin from this
+page); a chart library (more code than the chart); a tile on the landing
+page (the play page is where a Stargazer visitor already is).
+**Why:** nothing new faces the internet, the page works under a strict
+CSP (same-origin script and data), and the numbers are the ones the
+alarms watch.
+**Cost:** $0 here (a few KB of files); about $0.05 a month on the AWS
+side.

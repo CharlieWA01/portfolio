@@ -98,8 +98,15 @@ class PageTests(unittest.TestCase):
             self.assertNotIn("_URL", html)
 
     def test_every_page_is_reachable_from_the_landing_page(self):
-        # A page no tile links to is one nobody will find.
-        linked = set(parse("index.html").local_refs)
+        # A page nobody can click through to is one nobody will find. Pages
+        # count when a tile links to them, or a page a tile opens does (the
+        # bot's status page is linked from the play page).
+        linked, todo = set(), ["index.html"]
+        while todo:
+            for ref in parse(todo.pop()).local_refs:
+                if ref.endswith(".html") and ref not in linked and (SITE / ref).is_file():
+                    linked.add(ref)
+                    todo.append(ref)
         for name in PAGES:
             if name != "index.html":
                 with self.subTest(page=name):

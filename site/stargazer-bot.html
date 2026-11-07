@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Stargazer on Lichess: live status · Charlie's projects</title>
+  <meta name="description" content="Live status and game stats for StargazerEngine, a chess engine built from scratch in Rust that plays rated games on Lichess.">
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="style.css">
+  <script src="stargazer/status.js" defer></script>
+</head>
+<body class="page bot-page">
+  <nav class="back"><a href="stargazer.html">← Play Stargazer</a></nav>
+
+  <header>
+    <h1>Stargazer on Lichess</h1>
+    <p class="lede">My chess engine plays rated games against other bots on Lichess as <a href="https://lichess.org/@/StargazerEngine" rel="noopener">StargazerEngine</a>, every day from 10am to about 10pm Central time. This page shows how it's doing, from the same numbers its alarms watch.</p>
+  </header>
+
+  <main class="article bot-status">
+    <section aria-labelledby="now-heading">
+      <h2 id="now-heading">Right now</h2>
+      <p id="now" class="now" aria-live="polite">Loading…</p>
+      <p id="checked" class="evidence"></p>
+      <div class="stat-row" id="today" hidden>
+        <div class="stat"><span class="stat-value" id="today-games"></span><span class="stat-label">games today</span></div>
+        <div class="stat"><span class="stat-value" id="today-score"></span><span class="stat-label">wins · draws · losses</span></div>
+        <div class="stat"><span class="stat-value" id="today-time"></span><span class="stat-label">lost on time</span></div>
+      </div>
+      <p id="ratings" class="evidence"></p>
+    </section>
+
+    <section aria-labelledby="slo-heading">
+      <h2 id="slo-heading">Reliability, last 28 days</h2>
+      <p>Two service-level objectives, checked by a monitor outside the bot. If either slips, I get an email.</p>
+      <ul id="slos" class="slos"><li class="evidence">Loading…</li></ul>
+    </section>
+
+    <section aria-labelledby="rating-heading">
+      <h2 id="rating-heading">Rating over time</h2>
+      <p>Lichess rates each speed separately; each point is the rating at the end of a day.</p>
+      <div id="rating-chart" class="chart"><p class="evidence">Loading…</p></div>
+    </section>
+
+    <section aria-labelledby="results-heading">
+      <h2 id="results-heading">Results</h2>
+      <p id="totals"></p>
+      <div class="table-wrap"><table id="by-speed" class="stats-table">
+        <caption>By speed and colour</caption>
+        <thead><tr><th scope="col">Speed</th><th scope="col">Colour</th><th scope="col">Games</th><th scope="col">Won</th><th scope="col">Drawn</th><th scope="col">Lost</th></tr></thead>
+        <tbody></tbody>
+      </table></div>
+      <div class="table-wrap"><table id="openings" class="stats-table">
+        <caption>The openings it meets most</caption>
+        <thead><tr><th scope="col">Opening</th><th scope="col">Games</th><th scope="col">Won</th><th scope="col">Drawn</th><th scope="col">Lost</th></tr></thead>
+        <tbody></tbody>
+      </table></div>
+    </section>
+
+    <section aria-labelledby="recent-heading">
+      <h2 id="recent-heading">Latest games</h2>
+      <ol id="recent" class="recent"><li class="evidence">Loading…</li></ol>
+    </section>
+
+    <section aria-labelledby="how-heading">
+      <h2 id="how-heading">How this page works</h2>
+      <p>A small AWS Lambda checks the bot on Lichess every 5 minutes while it plays and records each game. Each night another saves the day's games to S3 and works out these stats with Athena (SQL over the saved files). Both write a small JSON file that this page reads from this same site: there's no API behind it, and it costs about 5 cents a month.</p>
+      <p id="generated" class="evidence"></p>
+      <p>The engine's <a href="https://github.com/CharlieWA01/stargazer" rel="noopener">source code</a> is on GitHub.</p>
+    </section>
+  </main>
+
+  <footer>
+    <p>Built by Charlie, with Claude. <a href="https://github.com/CharlieWA01/portfolio" rel="noopener">Source on GitHub</a>.</p>
+  </footer>
+</body>
+</html>

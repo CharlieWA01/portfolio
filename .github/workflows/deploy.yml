@@ -44,11 +44,13 @@ jobs:
 
       # The bucket is cwa-site-<account id>; working it out here keeps the
       # account ID out of this public repo. --delete removes files that were
-      # deleted from site/.
+      # deleted from site/. data/ is left alone: the Stargazer bot's status
+      # files are written there by AWS Lambdas, not deployed from here
+      # (cloud-homelab, stargazer-history.tf), and --delete would remove them.
       - name: Upload the site
         run: |
           account=$(aws sts get-caller-identity --query Account --output text)
-          aws s3 sync site/ "s3://cwa-site-$account/" --delete --only-show-errors
+          aws s3 sync site/ "s3://cwa-site-$account/" --delete --exclude "data/*" --only-show-errors
           echo "Uploaded site/."
 
       - name: Clear CloudFront's cache

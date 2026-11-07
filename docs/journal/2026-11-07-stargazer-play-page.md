@@ -70,6 +70,11 @@ engine, with the engine running on their own computer (DECISIONS.md,
 - Every tile still opens something, and Stargazer's now shows the engine
   itself. About 160 KB more on the site (engine, pieces, scripts); $0.
 - The site has JavaScript now, on this one page only.
-- Before merging: the `.wasm` here was built from stargazer PR #47's
-  branch. Once v0.2.0 is tagged, `tools/update-stargazer.sh v0.2.0`
-  replaces it with the released file.
+- The engine is Stargazer v0.2.0 (tagged by Charlie 2026-11-07):
+  `tools/update-stargazer.sh v0.2.0` checked the release's checksum. The
+  released file turned out byte-for-byte identical to the one built in
+  this session from PR #47's branch (same SHA-256), so the build is
+  reproducible.
+- The first v0.2.0 tag landed on v0.1.0's commit (the laptop's copy of
+  `origin/main` was out of date); the Release workflow's version check
+  would have refused it. Re-tagged after `git fetch origin`.

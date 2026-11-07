@@ -17,6 +17,7 @@ curl -fsSL -o "$work/stargazer.wasm.sha256" "$release/stargazer.wasm.sha256"
 (cd "$work" && sha256sum -c stargazer.wasm.sha256)
 
 cp "$work/stargazer.wasm" site/stargazer/stargazer.wasm
+chmod 644 site/stargazer/stargazer.wasm
 sum=$(cut -d' ' -f1 "$work/stargazer.wasm.sha256")
 cat > site/stargazer/ENGINE <<END
 # The Stargazer release the play page runs, and its SHA-256 from the

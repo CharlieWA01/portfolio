@@ -31,9 +31,9 @@
   'self'`.
 - Stargazer difficulty levels: parked by Charlie (2026-11-07) until they
   can be done properly in the engine; the page plays at full strength.
-- Stargazer play page extras: take back a move, drag-and-drop, the
-  engine's thinking drawn on the board ("watch it think", stargazer's
-  parking lot).
+- Stargazer play page extras: take back a move, the engine's thinking
+  drawn on the board ("watch it think", stargazer's parking lot).
+  (Drag-and-drop done 2026-11-07.)
 - A custom 404 page.
 - An "About Charlie" tile or section, with a resume link.
 - Links from the AI page to cloud-homelab, if it goes public (stargazer's

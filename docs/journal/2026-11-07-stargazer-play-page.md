@@ -78,3 +78,33 @@ engine, with the engine running on their own computer (DECISIONS.md,
 - The first v0.2.0 tag landed on v0.1.0's commit (the laptop's copy of
   `origin/main` was out of date); the Release workflow's version check
   would have refused it. Re-tagged after `git fetch origin`.
+
+## Later the same day: drag and drop
+
+Charlie tried the live page: it works, but it took a moment to realise a
+move is click-then-click. Pieces can now also be dragged.
+
+- **What was done:** `play.js` follows the pointer with pointer events,
+  which cover a mouse, a finger and a pen alike, so phones work without
+  separate touch code. Press on a piece that can move and drag: it
+  follows the pointer (the square it left keeps a faded copy and the
+  legal squares are marked), and it lands on the square you let go over.
+  Dropped where it can't go, it goes back and stays picked up, so a click
+  can still finish the move. A pawn dragged to the last rank opens the
+  promotion picker. A press without moving is an ordinary click, so
+  click-then-click still works, and so does the keyboard. The board has
+  `touch-action: none`, so dragging on a phone moves the piece, not the
+  page.
+- **Problems and fixes:** the first version claimed the pointer for the
+  board as soon as a button was pressed, so the click that followed went
+  to the board instead of the square, and click-then-click stopped
+  working (five tests failed). It now claims the pointer only once the
+  press has moved 5 pixels. The new tests also failed at first because
+  the board was below the test window's fold; Playwright's mouse uses
+  window coordinates, so the test scrolls the board into view first.
+- **How it was verified:** three new browser tests (drag a knight to f3;
+  drop a pawn on a square it can't reach, then click to finish; drag a
+  pawn to promote), all 17 tests pass. Proved they can fail: with the
+  drop handler disconnected, all three failed. A screenshot mid-drag shows
+  the piece following the pointer. Dragging on a real phone is Charlie's
+  check after deploy (Playwright's test mouse isn't a finger).

@@ -65,6 +65,8 @@ let round = 0; // bumped by each new game, so a late reply from the last one is 
 // Start a game; `fen` sets up a position instead of the usual start.
 async function newGame(side, fen = "") {
   round += 1;
+  press = null;
+  endDrag();
   const thisRound = round;
   you = side;
   whiteAtBottom = side === "w";
@@ -147,8 +149,12 @@ function showProblem(problem) {
 
 // --- Clicking on the board ---------------------------------------------
 
+function yourTurn() {
+  return game && game.status === "playing" && game.turn === you;
+}
+
 function onSquare(square) {
-  if (!game || game.status !== "playing" || game.turn !== you) return;
+  if (!yourTurn()) return;
   const piece = pieceOn(square);
   if (selected) {
     const moves = game.legal.filter((m) => m.slice(0, 2) === selected && m.slice(2, 4) === square);
@@ -163,6 +169,76 @@ function onSquare(square) {
 
 function movesFrom(square) {
   return game.legal.filter((m) => m.slice(0, 2) === square);
+}
+
+// --- Dragging a piece ----------------------------------------------------
+// Press on one of your pieces and move: it follows the pointer (mouse,
+// finger or pen) and drops on the square you let go over. A press that
+// doesn't move is an ordinary click, so click-then-click still works.
+
+const DRAG_START_PX = 5; // how far the pointer moves before it's a drag
+let press = null; // {square, x, y, pointerId} while the button is down
+let dragFrom = null; // the square being dragged from, once dragging
+let ghost = null; // the piece image following the pointer
+let swallowClick = false; // set for a moment after a drop
+
+boardEl.addEventListener("pointerdown", (event) => {
+  const cell = event.target.closest(".square");
+  if (!cell || event.button !== 0 || !yourTurn()) return;
+  const square = cell.dataset.square;
+  if (!movesFrom(square).length) return;
+  press = { square, x: event.clientX, y: event.clientY, pointerId: event.pointerId, size: cell.offsetWidth };
+});
+
+boardEl.addEventListener("pointermove", (event) => {
+  if (!press || event.pointerId !== press.pointerId) return;
+  if (!dragFrom) {
+    if (Math.hypot(event.clientX - press.x, event.clientY - press.y) < DRAG_START_PX) return;
+    dragFrom = press.square;
+    // The board redraws during a drag; it, not the square, keeps the
+    // pointer (only once dragging, so a plain click still reaches its square).
+    boardEl.setPointerCapture(event.pointerId);
+    selected = dragFrom;
+    ghost = pieceImage(pieceOn(dragFrom));
+    ghost.className = "drag-ghost";
+    ghost.width = ghost.height = press.size;
+    document.body.append(ghost);
+    render();
+  }
+  ghost.style.transform = `translate(${event.clientX - press.size / 2}px, ${event.clientY - press.size / 2}px)`;
+});
+
+boardEl.addEventListener("pointerup", (event) => {
+  if (!press || event.pointerId !== press.pointerId) return;
+  press = null;
+  if (!dragFrom) return; // no drag: the click that follows does the work
+  const from = dragFrom;
+  endDrag();
+  // The click that ends a drag isn't a click (it may never reach a
+  // square at all, so the flag clears itself straight after).
+  swallowClick = true;
+  setTimeout(() => (swallowClick = false));
+  const target = document.elementFromPoint(event.clientX, event.clientY)?.closest(".square");
+  const to = target && boardEl.contains(target) ? target.dataset.square : null;
+  const moves = to ? movesFrom(from).filter((m) => m.slice(2, 4) === to) : [];
+  if (moves.length === 1) return yourMove(moves[0]);
+  if (moves.length > 1) return showPromotion(moves);
+  // Dropped somewhere it can't go: the piece goes back, still picked up.
+  render();
+});
+
+boardEl.addEventListener("pointercancel", () => {
+  press = null;
+  if (dragFrom) {
+    endDrag();
+    render();
+  }
+});
+
+function endDrag() {
+  dragFrom = null;
+  ghost?.remove();
+  ghost = null;
 }
 
 // A pawn reaching the last rank: choose what it becomes.
@@ -237,6 +313,7 @@ function render() {
       const dark = ("abcdefgh".indexOf(file) + rank) % 2 === 1;
       cell.classList.add(dark ? "dark" : "light");
       if (square === selected) cell.classList.add("selected");
+      if (square === dragFrom) cell.classList.add("drag-from");
       if (targets.includes(square)) cell.classList.add(piece ? "capture" : "target");
       if (lastMove && (lastMove.slice(0, 2) === square || lastMove.slice(2, 4) === square)) {
         cell.classList.add("last");
@@ -250,7 +327,10 @@ function render() {
       if (piece) cell.append(pieceImage(piece));
       if (file === files[0]) cell.append(label("rank", rank));
       if (rank === ranks[7]) cell.append(label("file", file));
-      cell.addEventListener("click", () => onSquare(square));
+      cell.addEventListener("click", () => {
+        if (swallowClick) swallowClick = false;
+        else onSquare(square);
+      });
       cells.push(cell);
     }
   }

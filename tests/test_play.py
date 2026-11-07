@@ -105,6 +105,42 @@ class PlayPageTests(unittest.TestCase):
         expect(page.locator("#status")).to_have_text("Your move.")
         expect(page.locator("#thought")).to_contain_text("Stargazer searched")
 
+    def drag(self, start, end):
+        """Press on one square, move across the board, let go on another."""
+        mouse = self.page.mouse
+        # The mouse works in window coordinates: bring the board into view.
+        self.page.locator("#board").scroll_into_view_if_needed()
+        a = self.square(start).bounding_box()
+        b = self.square(end).bounding_box()
+        mouse.move(a["x"] + a["width"] / 2, a["y"] + a["height"] / 2)
+        mouse.down()
+        mouse.move(b["x"] + b["width"] / 2, b["y"] + b["height"] / 2, steps=8)
+        mouse.up()
+
+    def test_a_piece_can_be_dragged_to_its_square(self):
+        page = self.page
+        expect(page.locator("#status")).to_have_text("Your move.")
+        self.drag("g1", "f3")
+        expect(page.locator("#moves li").first).to_have_text(re.compile(r"^Nf3 \S+$"), timeout=10_000)
+        expect(page.locator(".drag-ghost")).to_have_count(0)
+
+    def test_a_piece_dropped_where_it_cannot_go_goes_back(self):
+        page = self.page
+        expect(page.locator("#status")).to_have_text("Your move.")
+        self.drag("e2", "e5")
+        expect(page.locator(".drag-ghost")).to_have_count(0)
+        expect(page.locator("#moves li")).to_have_count(0)
+        expect(self.square("e2")).to_have_attribute("aria-label", "e2, white pawn")
+        # Still picked up, so a click finishes the move.
+        expect(self.square("e2")).to_have_class(re.compile(r"\bselected\b"))
+        self.square("e4").click()
+        expect(page.locator("#moves li").first).to_have_text(re.compile(r"^e4 \S+$"), timeout=10_000)
+
+    def test_a_promotion_can_be_dragged(self):
+        self.open_position("8/P6k/8/8/8/8/8/K7 w - - 0 1")
+        self.drag("a7", "a8")
+        expect(self.page.locator("#promotion button")).to_have_count(4)
+
     def test_an_illegal_move_is_not_played(self):
         expect(self.page.locator("#status")).to_have_text("Your move.")
         self.square("e2").click()

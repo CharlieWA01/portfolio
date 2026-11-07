@@ -184,6 +184,9 @@ footer a { color: inherit; }
 
 .board {
   display: grid;
+  /* Dragging a piece on a phone moves the piece, not the page. */
+  touch-action: none;
+  user-select: none;
   grid-template-columns: repeat(8, 1fr);
   aspect-ratio: 1;
   width: 100%;
@@ -223,6 +226,19 @@ footer a { color: inherit; }
   outline-offset: -3px;
   z-index: 1;
 }
+.square.drag-from img { opacity: 0.3; }
+
+/* The piece following the pointer while it's dragged (play.js). */
+.drag-ghost {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 10;
+  pointer-events: none;
+  cursor: grabbing;
+  filter: drop-shadow(0 4px 6px rgba(0, 0, 0, 0.35));
+}
+
 .square img {
   position: relative;
   display: block;

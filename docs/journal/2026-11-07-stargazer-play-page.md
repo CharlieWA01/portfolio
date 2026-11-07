@@ -41,6 +41,11 @@ engine, with the engine running on their own computer (DECISIONS.md,
 - This session's Chromium is a newer build than Playwright 1.56 expects, so
   the tests accept `CHROMIUM_PATH` to run locally; CI installs the
   matching browser.
+- The first CI run failed before any test: GitHub's `ubuntu-latest` is
+  now Ubuntu 26.04, and Playwright 1.56 refuses to install its browser
+  there ("does not support chromium on ubuntu26.04-x64"). The `checks`
+  job is pinned to `ubuntu-24.04`. (Maplenote's `tests` workflow uses
+  `ubuntu-latest` with the same Playwright, so it may hit this too.)
 - Opening the page from a file (`file://`) can't start the engine
   (browsers don't allow workers there), so the README now serves `site/`
   with `python3 -m http.server`.

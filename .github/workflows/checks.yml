@@ -12,7 +12,9 @@ permissions:
 
 jobs:
   site:
-    runs-on: ubuntu-latest
+    # Not ubuntu-latest: that's Ubuntu 26.04 now, and Playwright 1.56 can't
+    # install its browser there (failed on this PR's first run, 2026-11-07).
+    runs-on: ubuntu-24.04
     steps:
       - uses: actions/checkout@v7
 

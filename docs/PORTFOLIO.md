@@ -29,3 +29,6 @@ headers), S3, WAF · GitHub Actions with OIDC · Terraform.
 - Built and host a public portfolio site on CloudFront and a private S3
   origin behind AWS WAF, defined in Terraform and deployed from GitHub
   Actions via OIDC with a role scoped to one bucket and one distribution.
+- Shipped a playable chess engine (my own, in Rust) on a static site by
+  compiling it to WebAssembly and running it in a browser worker: $0 to
+  run, no server, end-to-end browser tests in CI.

@@ -106,5 +106,16 @@ move is click-then-click. Pieces can now also be dragged.
   drop a pawn on a square it can't reach, then click to finish; drag a
   pawn to promote), all 17 tests pass. Proved they can fail: with the
   drop handler disconnected, all three failed. A screenshot mid-drag shows
-  the piece following the pointer. Dragging on a real phone is Charlie's
-  check after deploy (Playwright's test mouse isn't a finger).
+  the piece following the pointer. Dragging on a real phone was Charlie's
+  check after deploy (Playwright's test mouse isn't a finger): it works
+  with a mouse and a finger on a laptop, and on a phone ("feels so much
+  better").
+
+## Docs pass (same day)
+Charlie asked for a last look over the docs. Here: the 2026-10-20
+"no JavaScript yet" decision gets a note that the play page brought its
+own scripts as planned; PORTFOLIO.md gains a resume bullet for the play
+page; the AI page's story about the engine's goal says it aimed at 1800,
+was raised to 2000 and passed (it said "aims at 1800", out of date since
+2026-10-24). The stargazer repo got its matching pass (README "Play it",
+fetch before tagging).

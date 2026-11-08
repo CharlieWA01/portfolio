@@ -11,7 +11,9 @@ keys, for about $7 a month.
 - Each tile works on click: Maplenote opens in guest mode with no login;
   Stargazer opens a page where you play the from-scratch Rust engine
   right in your browser (compiled to WebAssembly, so no server and about
-  $0), with a link to its Lichess bot.
+  $0), with a link to its Lichess bot and a live status page for it
+  (online now, SLOs, rating over time, results; static JSON written by
+  AWS Lambdas, no API).
 - A "How I work with AI" page: Claude writes most of the code; I own the
   goals, design, review and verification, with AWS-enforced limits on
   what the AI can change and proof required for every change.

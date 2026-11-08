@@ -19,6 +19,12 @@
 - [x] Stargazer compiled to WebAssembly: play the engine in the browser,
       right on this site (`site/stargazer.html`, 2026-11-07; the tile opens
       it, and Lichess is a link on that page)
+- [x] The Stargazer bot's status page (`site/stargazer-bot.html`,
+      2026-11-07; linked from the play page): live status, the SLOs,
+      rating over time, results, openings, latest games, read from JSON
+      files AWS Lambdas write into `data/` (cloud-homelab,
+      stargazer-history.tf). Shows "No data yet" until Charlie applies
+      that and runs the backfill.
 - [ ] Homelab write-ups and a read-only status page (never a path into the
       house). Its "coming later" tile was taken down on 2026-10-26; the tile
       comes back once there's something to click
@@ -35,6 +41,8 @@
   drawn on the board ("watch it think", stargazer's parking lot).
   (Drag-and-drop done 2026-11-07.)
 - A custom 404 page.
+- Status page extras: past incidents from stargazer's chaos drills and
+  postmortems (5e), once there are some.
 - An "About Charlie" tile or section, with a resume link.
 - Links from the AI page to cloud-homelab, if it goes public (stargazer's
   went in on 2026-10-26).

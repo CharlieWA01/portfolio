@@ -16,3 +16,4 @@ story behind each change is in `docs/journal/`. See `docs/DOCS-STANDARD.md`.
 | 2026-11-07 | [#8](https://github.com/CharlieWA01/portfolio/pull/8) | Play Stargazer in the browser: the play page, and the tile opens it |
 | 2026-11-07 | [#9](https://github.com/CharlieWA01/portfolio/pull/9) | Play page: drag pieces as well as click-then-click |
 | 2026-11-07 | [#10](https://github.com/CharlieWA01/portfolio/pull/10) | docs: a pass after the play page went live |
+| 2026-11-07 | [#11](https://github.com/CharlieWA01/portfolio/pull/11) | The Stargazer bot's status page |
